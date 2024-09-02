@@ -3,17 +3,18 @@ import socket
 HOST = '0.0.0.0'
 PORT = 1234
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((HOST, PORT))
-server_socket.listen()
 
-print(f"서버가 {PORT} 포트에서 대기 중 ...")
+def start_server():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+        server_socket.bind((HOST, PORT))
+        server_socket.listen()
+        print(f"Waiting for connection...")
 
-client_socket, client_addr = server_socket.accpet()
-print(f"클라이언트 {client_addr} 연결됨!")
+        while True:
+            client_socket, client_addr = server_socket.accept()
+            print(f"클라이언트 {client_addr} 연결 완료")
+            client_socket.sendall(b"wellcome \n")
+            client_socket.close()
 
-while True:
-    try:
-        data = client_socket.recv(1024)
-        if not data:
-            break
+if __name__ == "__main__":
+    start_server()
