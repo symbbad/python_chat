@@ -23,8 +23,6 @@ def start_client():
                     print("Bye!")
                     break
                 client_socket.sendall(message.encode())
-                response = client_socket.recv(1024)
-                print(f"Server: {response.decode()}")
     except Exception as e:
         print(f"연결 실패: {e}")
 
